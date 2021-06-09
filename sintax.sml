@@ -42,8 +42,10 @@ val (op :<=>:) = equivalencia
 
 ;
 
-val pru1 = (variable "a") :&&: (variable "b") ;
+val pru1 = (variable "a") :||: (variable "b") ;
 val pru2 = (variable "x") :&&: (variable "y") ;
 val pru3 = pru1 :||: pru2 ;
 val pru4 = pru3 :=>: pru3 ;
+
+val pru5 = (variable "a") :||: (variable "b") :||: (variable "y");
 
