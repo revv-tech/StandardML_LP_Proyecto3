@@ -21,6 +21,7 @@ val pru2 = (constante true) :=>: (variable "q") ;
 val pru3 = (variable "p") :=>: ((variable "q") :=>: (variable "q")) ;
 val pru4 = t :=>: f ;
 val pru5 = f :=>: t ;
+val pruFuego = (variable "a") :&&: ((variable "b") :||: (variable "c"))
 
 val vp = variable "p" ;
 val vq = variable "q" ;

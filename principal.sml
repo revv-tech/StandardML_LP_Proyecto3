@@ -6,8 +6,6 @@ use "evalProp.sml";
 use "taut.sml";
 
 
-
-
 fun fnd prop = 
 
     let
@@ -80,58 +78,6 @@ fun fnd prop =
     	tmpFinal
     end
 ;
-
-(*RECIBE LISTA DE LISTAS GRANDE*)
-fun toProp [] = []
-
-	| toProp (lista :: mas_listas) = 
-
-		let
-
-			fun first (x, _) = x
-			fun second (_, y) = y
-
-			fun toPropAux [] = []
-
-			| toPropAux( tupla :: mas_tuplas) = 
-
-				let
-					val nombre = first tupla
-					val valorBool =  second tupla
-				in
-					if valorBool then
-						[(variable nombre)] @ toPropAux mas_tuplas
-					else
-						[~:(variable nombre)] @ toPropAux mas_tuplas
-				end
- 				
-		in 
-			[toPropAux lista] @ toProp mas_listas
-		end
-;
-
-fun gc [] = constante true
-    | gc ([prop]) = prop
-    | gc (var :: mas_variables) =  
-        (conjuncion (var ,gc(mas_variables)))
-  
-;
-
-fun gd [] = constante false
-    | gd ([prop]) = prop
-    | gd (var :: mas_variables) =  
-        (disyuncion (var ,gd (mas_variables)))
-;
-
-
-val prop = disyuncion
-    (conjuncion (variable "a",conjuncion (variable "b",variable "c")),
-     disyuncion
-       (conjuncion
-          (variable "a",conjuncion (variable "b",negacion (variable "c"))),
-        conjuncion
-          (variable "a",conjuncion (negacion (variable "b"),variable "c"))));
-
 
 
 fun bonita prop =
