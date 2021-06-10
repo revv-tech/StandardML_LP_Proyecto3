@@ -8,7 +8,7 @@ use "taut.sml";
 
 
 
-fun fndFALSE prop = 
+fun fnd prop = 
 
     let
         val variables = vars prop
@@ -17,6 +17,8 @@ fun fndFALSE prop =
         
         val listaBooleanos = gen_bools n
         
+        val mapToProp = map toProp
+
         fun fndAux []                  = []
 
         |   fndAux (fila :: mas_filas) = 
@@ -36,14 +38,13 @@ fun fndFALSE prop =
                 end
 		
     in
-    	fndAux listaBooleanos
+    	mapToProp fndAux listaBooleanos
     end
 ;
 
 (*RECIBE LISTA DE LISTAS GRANDE*)
 fun toProp [] = []
 	| toProp (lista :: mas_listas) = 
-			
 		let
 			fun first (x, _) = x
 			fun second (_, y) = y
@@ -65,35 +66,22 @@ fun toProp [] = []
 		end
 ;
 
-fun amountVars (listVars) = 
-	val n = length listVars
-	case n of 
-		0 => []
-		| 1 => [List.nth(listVars,0)];
-		| 2 => [List.nth(listVars,0) :&&: [List.nth(listVars,1)];
-		| 3 => [List.nth(listVars,0) :&&: [List.nth(listVars,1) :&&: [List.nth(listVars,2)];
-		| 4 => [List.nth(listVars,0) :&&: [List.nth(listVars,1) :&&: [List.nth(listVars,2) :&&: [List.nth(listVars,3)];
-		| 5 => List.nth(listVars,0) :&&: List.nth(listVars,1) :&&: List.nth(listVars,2) :&&: List.nth(listVars,3) :&&: List.nth(listVars,4)];
-		| 6 => List.nth(listVars,0) :&&: List.nth(listVars,1) :&&: List.nth(listVars,2) :&&: List.nth(listVars,3) :&&: List.nth(listVars,4) :&&: List.nth(listVars,5)];
+fun gc [] = constante true
+    | gc ([prop]) = prop
+    | gc (var :: mas_variables) =  
+        (conjuncion (var ,gc(mas_variables)))
+  
 ;
 
-fun addSign [] = []
-	| addSign (lista :: mas_listas) = 
-		let
-			fun addSignAux [] = []
-			| addSignAux( par) = 
-				let
-					val p1 = List.nth(par,0)
-					val p2 =  List.nth(par,1)
-					val tmp = p1 :&&: p2
-				in
-					[tmp]
-				end
- 				
-		in 
-			addSignAux lista @ addSign mas_listas
-		end
+fun gd [] = constante true
+    | gd ([prop]) = prop
+    | gd (var :: mas_variables) =  
+        (disyuncion (var ,gc(mas_variables)))
+  
 ;
+
+
+
 
 
 
