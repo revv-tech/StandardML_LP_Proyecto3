@@ -18,7 +18,7 @@ fun imprimir prop =
         constante false             => "false"
     |   constante true              => "true"
     |   variable nombre             => nombre
-    |   negacion prop1              => "negación (" ^ imprimir  prop1 ^ ")"
+    |   negacion prop1              => "negacion (" ^ imprimir  prop1 ^ ")"
     |   conjuncion (prop1, prop2)   => "conjuncion (" ^ imprimir prop1 ^ ", " ^ imprimir prop2 ^ ")"
     |   disyuncion (prop1, prop2)   => "disyuncion (" ^ imprimir prop1 ^ ", " ^ imprimir prop2 ^ ")"
     |   implicacion (prop1, prop2)  => "implicacion (" ^ imprimir prop1 ^ ", " ^ imprimir prop2 ^ ")"
@@ -48,4 +48,6 @@ val pru3 = pru1 :||: pru2 ;
 val pru4 = pru3 :=>: pru3 ;
 
 val pru5 = (variable "a") :||: (variable "b") :||: (variable "y");
+
+val pruFuego = (variable "a") :&&: (variable "b") :||: (variable "c")
 
