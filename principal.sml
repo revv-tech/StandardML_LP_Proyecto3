@@ -93,4 +93,13 @@ fun bonita prop =
 ;
 
 
+fun simpl prop =
+    case prop of
+        implicacion (prop1, prop2)              => ~:prop1 :||: prop2 
 
+    |   disyuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante true
+                                                   else prop
+
+    |   conjuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante false
+                                                   else prop1
+;
