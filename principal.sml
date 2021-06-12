@@ -95,11 +95,39 @@ fun bonita prop =
 
 fun simpl prop =
     case prop of
-        implicacion (prop1, prop2)              => ~:prop1 :||: prop2 
+        (*Implicacion y disyuncion*)
+        implicacion (prop1, prop2)              => if prop1 <> prop2 then ~:prop1 :||: prop2
+                                                   else prop 
 
+        (*Inversos con verdadero*)
     |   disyuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante true
                                                    else prop
 
+    |   disyuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante true
+                                                   else prop
+
+        (*Inversos con falso*)
     |   conjuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante false
-                                                   else prop1
+                                                   else prop
+
+    |   conjuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante false
+                                                   else prop
+        (*Neutro con disyuncion*)
+    |   disyuncion (prop1, constante false)     => prop1
+
+    |   disyuncion (constante false, prop2)     => prop2
+
+        (*Neutro con conjuncion*)
+    |   conjuncion (prop1, constante true)     => prop1
+
+    |   conjuncion (constante true, prop2)     => prop2
+
+        (*Idempotencia*)
+    |   disyuncion (prop1, prop2)              => if prop1 = prop2 then prop1
+                                                  else prop
+
+    |   conjuncion (prop1, prop2)              => if prop1 = prop2 then prop1
+                                                  else prop
+
+    |   negacion(negacion(prop1))              => prop1               
 ;
