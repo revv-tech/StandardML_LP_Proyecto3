@@ -128,6 +128,24 @@ fun simpl prop =
 
     |   conjuncion (prop1, prop2)              => if prop1 = prop2 then prop1
                                                   else prop
+        (*Doble negacion*)
+    |   negacion(negacion(prop1))              => prop1
 
-    |   negacion(negacion(prop1))              => prop1               
+        (*De Morgan Disyuncion*)
+    |   negacion(disyuncion(prop1, prop2))     => conjuncion(negacion(prop1), negacion(prop2))
+
+        (*De Morgan Conjuncion*)
+    |   negacion(conjuncion(prop1, prop2))     => disyuncion(negacion(prop1), negacion(prop2))
+
+
+        (*Dominacion con Verdadero*)
+    |   disyuncion(prop1, constante true)      => constante true
+
+    |   disyuncion(constante true, prop2)      => constante true
+
+        (*Dominacion con False*)
+    |   conjuncion(prop1, constante false)      => constante false
+
+    |   conjuncion(constante false, prop2)      => constante false
+
 ;
