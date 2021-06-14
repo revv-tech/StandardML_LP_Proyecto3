@@ -46,10 +46,3 @@ val pru1 = (variable "a") :||: (variable "b") ;
 val pru2 = (variable "x") :&&: (variable "y") ;
 val pru3 = pru1 :||: pru2 ;
 val pru4 = pru3 :=>: pru3 ;
-
-val pru5 = (variable "a") :||: (variable "b") :||: (variable "y");
-
-val pruFuego = (variable "a") :&&: (variable "b") :||: (variable "c");
-
-val inv = variable "p" :||: negacion(variable "p");
-val noInv = variable "p" :||: negacion(variable "q");

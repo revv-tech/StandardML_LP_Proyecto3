@@ -5,6 +5,11 @@ use "as_vals.sml";
 use "evalProp.sml";
 use "taut.sml";
 
+(*PRUEBA 1*)
+val p = variable "p"
+val q = variable "q"
+val hitotsu = (p :&&: p) :=>: (q :||: ~:q)
+
 val prueba1 = implicacion( conjuncion(variable "p", variable "p") , disyuncion(variable "q", constante false))
 
 
@@ -101,7 +106,6 @@ fun simpl prop =
         (*Implicacion y disyuncion*)
         implicacion (prop1, prop2)              => if prop1 <> prop2 then ~:(simpl prop1) :||: (simpl prop2)
                                                    else prop 
-
             (*De Morgan Disyuncion*)
     |   negacion(disyuncion(prop1, prop2))     => conjuncion(negacion((simpl prop1)), negacion((simpl prop2)))
 
@@ -128,20 +132,36 @@ fun simpl prop =
 
     |   disyuncion (constante false, prop2)     => simpl prop2
 
+    |   disyuncion (negacion(prop1), constante false)     => negacion(simpl prop1)
+    
+    |   disyuncion (constante false, negacion(prop2))     => negacion(simpl prop2)
+
         (*Neutro con conjuncion*)
     |   conjuncion (prop1, constante true)     => simpl prop1
 
     |   conjuncion (constante true, prop2)     => simpl prop2
+
+    |   conjuncion (negacion(prop1), constante true)     => negacion(simpl prop1)
+
+    |   conjuncion (constante true, negacion(prop2))     => negacion(simpl prop2)
 
         (*Dominacion con Verdadero*)
     |   disyuncion(prop1, constante true)      => constante true
 
     |   disyuncion(constante true, prop2)      => constante true
 
+    |   disyuncion(negacion(prop1), constante true)      => constante true
+
+    |   disyuncion(constante true, negacion(prop2))      => constante true
+
         (*Dominacion con False*)
     |   conjuncion(prop1, constante false)      => constante false
 
     |   conjuncion(constante false, prop2)      => constante false
+
+    |   conjuncion(negacion(prop1), constante false)      => constante false
+
+    |   conjuncion(constante false, negacion(prop2))      => constante false
 
         (*Idempotencia*)
     |   disyuncion (prop1, prop2)              => if prop1 = prop2 then simpl prop1
@@ -149,6 +169,14 @@ fun simpl prop =
 
     |   conjuncion (prop1, prop2)              => if prop1 = prop2 then simpl prop1
                                                   else prop
+
+
+    |   disyuncion (negacion(prop1), negacion(prop2))              => if prop1 = prop2 then negacion(simpl prop1)
+                                                  else prop
+
+    |   conjuncion (negacion(prop1), negacion(prop2))              => if prop1 = prop2 then negacion(simpl prop1)
+                                                  else prop
+
         (*Doble negacion*)
     |   negacion(negacion(prop1))              => simpl prop1
 
