@@ -35,3 +35,6 @@ fun taut prop =
             imprimir prop ^ " NO es una tautologia, porque " ^ diagnosticar la_asociacion
         end
 ;
+
+
+
