@@ -13,6 +13,7 @@ val t = constante true;
 
 (* PRUEBA PARA SIMPL*)
 val hitotsu = (p :&&: p) :=>: (q :||: (~:q))
+val futatsu = ~:(~:p :||: f)
 val mittsu = ((~:(p) :||: f) :=>: (q :&&: t))
 
 
