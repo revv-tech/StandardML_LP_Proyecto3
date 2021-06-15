@@ -4,23 +4,20 @@ use "gen_bools.sml";
 use "as_vals.sml";
 use "evalProp.sml";
 use "taut.sml";
-
-(*PRUEBA 1*)
 val p = variable "p";
 val q = variable "q";
 val z = variable "z";
 val f = constante false;
 val t = constante true;
-val hitotsu = (p :&&: p) :=>: (q :||: ~:q);
-val mittsu  = (~:(~:(p):||:f) :=>: (q :&&: t)) :&&: (z :&&: ~:z);
 
-val prueba1 = implicacion( conjuncion(variable "p", variable "p") , disyuncion(variable "q", constante false));
-val a = disyuncion(negacion(variable "p"), constante true);
+val hitotsu = (p :&&: p) :=>: (q :||: (~:q))
+val mittsu  = (~:(~:(p):||:f) :=>: (q :&&: t)) :&&: (z :&&: ~:z)
+
 
 (*PRUEBA de FND*)
 val fndp1 =  ~:(variable ("p"):||:variable ("q")):=>:(variable ("p"):=>:variable ("r"))
 val fndp2 =  (variable ("p") :&&: variable ("r")) :<=>: (variable ("q") :||: variable ("r"))
-(*val fndp3 =  (variable ("p") :&&: variable ("r")) :||: (variable ("q") :&&: (~: (variable ("r")))*)
+(*val fndp3 =  (variable ("p") :&&: variable ("r")) :||: ( variable ("q") :&&: (~: (variable ("r")))*)
 
 (*Forma Normal Disyuntiva*)
 fun fnd prop = 
@@ -111,6 +108,7 @@ fun bonita prop =
 
 (*SIMPLIFICACION*)
 fun simpl prop =
+
     case prop of
         (*Implicacion y disyuncion*)
         implicacion (prop1, prop2)              => if prop1 <> prop2 then simpl (~:(simpl prop1) :||: (simpl prop2))
@@ -163,7 +161,7 @@ fun simpl prop =
 
     |   conjuncion (prop1, prop2)              => if prop1 = prop2 then simpl prop1
                                                   else prop
-                                                  
+
         (*Doble negacion*)
     |   negacion(negacion(prop1))              => simpl prop1
 
