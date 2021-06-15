@@ -6,8 +6,7 @@ use "evalProp.sml";
 use "taut.sml";
 
 val prueba1 = implicacion( conjuncion(variable "p", variable "p") , disyuncion(variable "q", constante false))
-
-
+val a = disyuncion(negacion(variable "p"), constante true);
 (*Forma Normal Disyuntiva*)
 fun fnd prop = 
 
@@ -102,26 +101,12 @@ fun simpl prop =
         implicacion (prop1, prop2)              => if prop1 <> prop2 then ~:(simpl prop1) :||: (simpl prop2)
                                                    else prop 
 
-            (*De Morgan Disyuncion*)
+        (*De Morgan Disyuncion*)
     |   negacion(disyuncion(prop1, prop2))     => conjuncion(negacion((simpl prop1)), negacion((simpl prop2)))
 
         (*De Morgan Conjuncion*)
     |   negacion(conjuncion(prop1, prop2))     => disyuncion(negacion((simpl prop1)), negacion((simpl prop2)))
 
-
-        (*Inversos con verdadero*)
-    |   disyuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante true
-                                                   else prop
-
-    |   disyuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante true
-                                                   else prop
-
-        (*Inversos con falso*)
-    |   conjuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante false
-                                                   else prop
-
-    |   conjuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante false
-                                                   else prop
 
         (*Neutro con disyuncion*)
     |   disyuncion (prop1, constante false)     => simpl prop1
@@ -138,10 +123,24 @@ fun simpl prop =
 
     |   disyuncion(constante true, prop2)      => constante true
 
-        (*Dominacion con False*)
+            (*Dominacion con False*)
     |   conjuncion(prop1, constante false)      => constante false
 
     |   conjuncion(constante false, prop2)      => constante false
+
+            (*Inversos con verdadero*)
+    |   disyuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante true
+                                                   else prop
+
+    |   disyuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante true
+                                                   else prop
+
+        (*Inversos con falso*)
+    |   conjuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante false
+                                                   else prop
+
+    |   conjuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante false
+                                                   else prop
 
         (*Idempotencia*)
     |   disyuncion (prop1, prop2)              => if prop1 = prop2 then simpl prop1
@@ -152,7 +151,7 @@ fun simpl prop =
         (*Doble negacion*)
     |   negacion(negacion(prop1))              => simpl prop1
 
-    (*Casos base*)
+        (*Casos base*)
 
     | variable nombre                          => prop
 
