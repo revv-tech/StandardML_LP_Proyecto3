@@ -10,8 +10,9 @@ val z = variable "z";
 val f = constante false;
 val t = constante true;
 
+(* PRUEBA PARA SIMPL*)
 val hitotsu = (p :&&: p) :=>: (q :||: (~:q))
-val mittsu  = (~:(~:(p):||:f) :=>: (q :&&: t)) :&&: (z :&&: ~:z)
+val mittsu = (~:(~:(p) :||: f) :=>: (q :&&: t))
 
 
 (*PRUEBA de FND*)
@@ -165,10 +166,14 @@ fun simpl prop =
 
         (*Casos base*)
 
+    | negacion(prop1)                          => simpl prop1
+
     | variable nombre                          => prop
 
     | constante true                           => prop
 
-    | constante false                          => prop   
+    | constante false                          => prop
+    
+
 
 ;
