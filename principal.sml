@@ -4,6 +4,7 @@ use "gen_bools.sml";
 use "as_vals.sml";
 use "evalProp.sml";
 use "taut.sml";
+
 val p = variable "p";
 val q = variable "q";
 val z = variable "z";
@@ -13,6 +14,7 @@ val t = constante true;
 (* PRUEBA PARA SIMPL*)
 val hitotsu = (p :&&: p) :=>: (q :||: (~:q))
 val mittsu = (~:(~:(p) :||: f) :=>: (q :&&: t))
+
 
 
 (*PRUEBA de FND*)
@@ -113,7 +115,7 @@ fun simpl prop =
     case prop of
         (*Implicacion y disyuncion*)
         implicacion (prop1, prop2)              => if prop1 <> prop2 then simpl (~:(simpl prop1) :||: (simpl prop2))
-                                                   else prop 
+                                                   else prop
 
         (*Neutro con disyuncion*)
     |   disyuncion (prop1, constante false)     => simpl prop1
@@ -141,24 +143,24 @@ fun simpl prop =
 
             (*Inversos con verdadero*)
     |   disyuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante true
-                                                   else prop
+                                                   else disyuncion  (simpl prop1, simpl (negacion(prop2)))
 
     |   disyuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante true
-                                                   else prop
+                                                   else disyuncion  (simpl(negacion(prop1)), simpl prop2)
 
         (*Inversos con falso*)
     |   conjuncion  (prop1, negacion(prop2))    => if prop1 = prop2 then constante false
-                                                   else prop
+                                                   else conjuncion (simpl prop1, simpl (negacion(prop2)))
 
     |   conjuncion  (negacion(prop1), prop2)    => if prop1 = prop2 then constante false
-                                                   else prop
+                                                   else conjuncion (simpl (negacion(prop1)), simpl prop2)
 
         (*Idempotencia*)
     |   disyuncion (prop1, prop2)              => if prop1 = prop2 then simpl prop1
-                                                  else prop
+                                                  else disyuncion (simpl prop1, simpl prop2)
 
     |   conjuncion (prop1, prop2)              => if prop1 = prop2 then simpl prop1
-                                                  else prop
+                                                  else conjuncion (simpl prop1, simpl prop2)
 
 
         (*Doble negacion*)
