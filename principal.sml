@@ -106,11 +106,11 @@ fun simpl prop =
         (*Implicacion y disyuncion*)
         implicacion (prop1, prop2)              => if prop1 <> prop2 then ~:(simpl prop1) :||: (simpl prop2)
                                                    else prop 
-            (*De Morgan Disyuncion*)
-    |   negacion(disyuncion(prop1, prop2))     => conjuncion(negacion((simpl prop1)), negacion((simpl prop2)))
+        (*De Morgan Disyuncion*)
+    |   negacion(disyuncion(prop1, prop2))     => conjuncion(simpl(negacion(prop1)), simpl(negacion(prop2)))
 
         (*De Morgan Conjuncion*)
-    |   negacion(conjuncion(prop1, prop2))     => disyuncion(negacion((simpl prop1)), negacion((simpl prop2)))
+    |   negacion(conjuncion(prop1, prop2))     => disyuncion(simpl(negacion(prop1)), simpl(negacion(prop2)))
 
 
         (*Inversos con verdadero*)
@@ -132,27 +132,27 @@ fun simpl prop =
 
     |   disyuncion (constante false, prop2)     => simpl prop2
 
-    |   disyuncion (negacion(prop1), constante false)     => negacion(simpl prop1)
+    |   disyuncion (negacion(prop1), constante false)     => simpl (negacion(prop1))
     
-    |   disyuncion (constante false, negacion(prop2))     => negacion(simpl prop2)
+    |   disyuncion (constante false, negacion(prop2))     => simpl (negacion(prop2))
 
         (*Neutro con conjuncion*)
     |   conjuncion (prop1, constante true)     => simpl prop1
 
     |   conjuncion (constante true, prop2)     => simpl prop2
 
-    |   conjuncion (negacion(prop1), constante true)     => negacion(simpl prop1)
+    |   conjuncion (negacion(prop1), constante true)     => simpl (negacion(prop1))
 
-    |   conjuncion (constante true, negacion(prop2))     => negacion(simpl prop2)
+    |   conjuncion (constante true, negacion(prop2))     => simpl (negacion(prop2))
 
         (*Dominacion con Verdadero*)
     |   disyuncion(prop1, constante true)      => constante true
 
     |   disyuncion(constante true, prop2)      => constante true
 
-    |   disyuncion(negacion(prop1), constante true)      => constante true
+    |   disyuncion(negacion(prop1), constante true)      => if prop1 = negacion(prop1) then constante true else prop
 
-    |   disyuncion(constante true, negacion(prop2))      => constante true
+    |   disyuncion(constante true, negacion(prop2))      => if prop2 = negacion(prop2) then constante true else prop
 
         (*Dominacion con False*)
     |   conjuncion(prop1, constante false)      => constante false
@@ -171,10 +171,10 @@ fun simpl prop =
                                                   else prop
 
 
-    |   disyuncion (negacion(prop1), negacion(prop2))              => if prop1 = prop2 then negacion(simpl prop1)
+    |   disyuncion (negacion(prop1), negacion(prop2))              => if prop1 = prop2 then simpl (negacion(prop1))
                                                   else prop
 
-    |   conjuncion (negacion(prop1), negacion(prop2))              => if prop1 = prop2 then negacion(simpl prop1)
+    |   conjuncion (negacion(prop1), negacion(prop2))              => if prop1 = prop2 then simpl (negacion(prop1))
                                                   else prop
 
         (*Doble negacion*)
