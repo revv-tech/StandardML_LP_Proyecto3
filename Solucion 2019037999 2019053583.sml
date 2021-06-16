@@ -51,21 +51,21 @@ fun fnd prop =
                 in 
                     [toPropAux lista] @ toProp mas_listas
                 end
-        fun gc [] = constante true
-            | gc ([prop]) = prop
-            | gc (var :: mas_variables) =  
-                (conjuncion (var ,gc(mas_variables)))
+        fun gen_cony [] = constante true
+            | gen_cony ([prop]) = prop
+            | gen_cony (var :: mas_variables) =  
+                (conjuncion (var ,gen_cony(mas_variables)))
         
-        fun gd [] = constante false
-            | gd ([prop]) = prop
-            | gd (var :: mas_variables) =  
-                (disyuncion (var ,gd (mas_variables)))
+        fun gen_disy [] = constante false
+            | gen_disy ([prop]) = prop
+            | gen_disy (var :: mas_variables) =  
+                (disyuncion (var ,gen_disy (mas_variables)))
 
         val tmp = fndAux listaBooleanos
         val tmp2 = toProp tmp
-        val newGC = map gc
+        val newGC = map gen_cony
         val tmp3 = newGC tmp2
-        val tmpFinal = gd tmp3
+        val tmpFinal = gen_disy tmp3
     
     in
     	tmpFinal
