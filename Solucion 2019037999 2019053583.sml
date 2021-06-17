@@ -78,7 +78,7 @@ fun bonita prop =
         constante false             => "false"
     |   constante true              => "true"
     |   variable nombre             => "verbatim(" ^ nombre ^ ")"
-    |   negacion prop1              => "~ (" ^ bonita  prop1 ^ ")"
+    |   negacion prop1              => "~(" ^ bonita  prop1 ^ ")"
     |   conjuncion (prop1, prop2)   => "(" ^ bonita prop1 ^ " /\\ " ^ bonita prop2 ^ ")"
     |   disyuncion (prop1, prop2)   => "(" ^ bonita prop1 ^ " \\/ " ^ bonita prop2 ^ ")"
     |   implicacion (prop1, prop2)  => "(" ^ bonita prop1 ^ " => " ^ bonita prop2 ^ ")"

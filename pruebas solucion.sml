@@ -16,3 +16,6 @@ val fndp1 =  ~:(variable ("p"):||:variable ("q")):=>:(variable ("p"):=>:variable
 val fndp2 =  (variable ("p") :&&: variable ("r")) :<=>: (variable ("q") :||: variable ("r"))
 val fndp3 =  ((variable ("p") :&&: variable ("r")) :||: ( variable ("q") :&&: ~: (variable ("r"))))
 
+(*PRUEBA PARA BONITA*)
+val bonita1 = (p :||: q) :=>: (p :&&: t)
+val bonita2 = f :<=>: ~:(p :&&: q)
