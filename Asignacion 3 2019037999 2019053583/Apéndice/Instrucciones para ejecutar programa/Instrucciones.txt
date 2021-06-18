@@ -1,0 +1,27 @@
+Instrucciones
+
+*El programa no se ejecuta de una manera complicada.
+ 
+*Una vez se compila el código del archivo “principal.sml”.
+ 
+*Solo hay que ver las pruebas que se quieren realizar para cada función
+ y ejecutar el nombre de cada función normalmente.
+ 
+*Si acaso utiliza el compilador Moscow ML.
+ 
+*Debe abrir el .exe, copiar el código del archivo “principal.sml” de la 
+subcarpeta Código Fuente en la carpeta de Apéndices en la consola del compilador.
+ 
+*A partir de ahí, sólo debe llamar la función con su nombre (fnd, bonita, y simpl), 
+y la prueba que desea realizar. 
+
+*Por ejemplo, se tiene la prueba p1 para simpl que consiste en una proposición.
+ 
+*Sólo se debe llamar simpl con la prueba como parámetro de la manera “simpl p1;”. 
+
+*Las funciones ya realizan las tareas con sus auxiliares por sí mismas. 
+
+*En caso de que p1 fuera una prueba para las funciones fnd y bonita se deben 
+ejecutar de las siguientes maneras “bonita p1;” y “fnd p1;”. 
+
+*Así con cada prueba que se desea realizar.
